@@ -71,12 +71,15 @@ export default function WebcamPage() {
       }
     };
 
-    if (startCapture) {
-      setStartCapture(false);
-    } else {
-      setImages([]);
-      !error && setStartCapture(true);
-    }
+    checkUserMediaSupport().then(()=>{
+      if (startCapture) {
+        setStartCapture(false);
+      } else {
+        setImages([]);
+        !error && setStartCapture(true);
+      }
+    }).catch(err=> console.log(err))
+
   };
 
   return (
@@ -100,7 +103,7 @@ export default function WebcamPage() {
       ) : (
         images.length >= 7 && (
           <div className='final-image'>
-            <img src={images[images.length - 1]} alt='Your image' />
+            <img src={images[images.length - 1]} alt='Result' />
           </div>
         )
       )}
